@@ -1,46 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Search;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class MainWindow : MonoBehaviour
+public class UIConsole : MonoBehaviour
 {
-    public Button sendButton;
-    public InputField usrInputField;
-    public TMP_Text meesageText;
-
+    public TMP_Text showText;
     private DeepSeekChat m_DsChat;
 
     private void Awake()
     {
         m_DsChat = new DeepSeekChat();
+        DontDestroyOnLoad(this);
     }
 
     void Start()
     {
-        sendButton.onClick.AddListener(SendUsrMessage2DeepSeek);
+        
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
 
-    private void ShowMessage(string message)
+    public void ClearMessage()
     {
-        meesageText.text += '\n' + message + '\n';
+        showText.text = "";
     }
 
-    private void SendUsrMessage2DeepSeek()
+    private void ShowMessage(string message)
     {
-        string usrMessage = usrInputField.text;
-        usrInputField.text = "";
+        showText.text += '\n' + message + '\n';
+    }
+
+    public void SendUsrMessage2DeepSeek(string usrMessage)
+    {
         if (!string.IsNullOrEmpty(usrMessage))
         {
             ShowMessage($"USER: {usrMessage}");
-            
+
             StartCoroutine(m_DsChat.CallDeepSeekApi(usrMessage, ShowMessage));
         }
     }
