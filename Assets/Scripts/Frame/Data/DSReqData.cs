@@ -10,6 +10,14 @@ public class DSReqData
     public bool stream = false;
 }
 
+public class B70Data
+{
+    public string prompt = "";
+    public int max_token = 100;
+    public float temperature = 0.7f;
+    public float top_p = 1.0f;
+    public int n = 1;
+}
 
 [System.Serializable]
 public class DeepSeekResponse

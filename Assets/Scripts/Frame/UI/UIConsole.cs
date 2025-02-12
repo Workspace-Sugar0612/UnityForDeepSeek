@@ -8,9 +8,11 @@ public class UIConsole : MonoBehaviour
 {
     public TMP_Text showText;
     private DeepSeekChat m_DsChat;
+    private DeepSeekR1 _deepseekr1;
 
     private void Awake()
     {
+        _deepseekr1 = (DeepSeekR1)FindObjectOfType(typeof(DeepSeekR1));
         m_DsChat = new DeepSeekChat();
         DontDestroyOnLoad(this);
     }
@@ -41,7 +43,7 @@ public class UIConsole : MonoBehaviour
         {
             ShowMessage($"USER: {usrMessage}");
 
-            StartCoroutine(m_DsChat.CallDeepSeekApi(usrMessage, ShowMessage));
+            StartCoroutine(_deepseekr1.OnSendMesss2DeepSeekR1(usrMessage, ShowMessage));
         }
     }
 }

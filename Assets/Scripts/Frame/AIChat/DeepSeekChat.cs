@@ -9,10 +9,10 @@ using System;
 
 public class DeepSeekChat
 {
-    public string apiKey = "sk-9991b1a05cf246ac81bf94a82d63005d";
+    public string apiKey = "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";
 
     // 多轮对话 URL
-    private string apiUrl = "https://api.deepseek.com/chat/completions";
+    private string apiUrl = "https://api.openrouter.ai/v1/models/deepseek-b70/completions";
   
     private List<Dictionary<string, string>> messages;
 
@@ -21,16 +21,23 @@ public class DeepSeekChat
     public IEnumerator CallDeepSeekApi(string message, Action<string> callback)
     {
         Debug.Log("DeepSeek API Request Begin..");
-        messages.Add(new Dictionary<string, string> { { "role", "user" }, { "content", message } });
-        
-        DSReqData dsrd = new DSReqData() 
-        {
-            model = "deepseek-chat",
-            messages = messages,
-            stream = false
-        };
+        //messages.Add(new Dictionary<string, string> { { "role", "user" }, { "content", message } });
 
-        string chatJson = JsonMapper.ToJson(dsrd);
+        //DSReqData dsrd = new DSReqData() 
+        //{
+        //    model = "deepseek-chat",
+        //    messages = messages,
+        //    stream = false
+        //};
+        B70Data b70Data = new B70Data()
+        {
+            prompt = message,
+            max_token = 100,
+            temperature = 0.7f,
+            top_p = 1.0f,
+            n = 1
+        };
+        string chatJson = JsonMapper.ToJson(b70Data);
         UnityWebRequest uwr = new UnityWebRequest(apiUrl, "POST");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(chatJson);
         uwr.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -42,6 +49,7 @@ public class DeepSeekChat
 
         if (uwr.result == UnityWebRequest.Result.Success)
         {
+            Debug.Log("Successed! response mess: " + uwr.downloadHandler.text);
             // 解析响应
             var response = JsonMapper.ToObject<DeepSeekResponse>(uwr.downloadHandler.text);
             string botMessage = response.choices[0].message.content;

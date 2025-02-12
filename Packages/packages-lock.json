@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.huggingface.api": {
+      "version": "file:unity-api-main",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.6",
+        "com.unity.nuget.newtonsoft-json": "3.0.1"
+      }
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 2,
@@ -14,6 +23,13 @@
       "dependencies": {
         "com.unity.test-framework": "1.1.9"
       },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
